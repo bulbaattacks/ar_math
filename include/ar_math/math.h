@@ -156,13 +156,34 @@ inline Status power(int a, int b, int& result)
         return Status::InvalidArgument;
     }
 
-    if (a == INT_MAX && b > 1)
+    if (b == 0)
     {
-        return Status::Overflow;
+        result = 1;
+        return Status::Ok;
+    }
+
+    if (a == 0 || a == 1)
+    {
+        result = a;
+        return Status::Ok;
+    }
+
+    if (a == -1)
+    {
+        if (b % 2 == 0)
+        {
+            result = 1;
+        }
+        else
+        {
+            result = -1;
+        }
+        return Status::Ok;
     }
 
     result = 1;
-    for (int i = 1; i <= b; i++)
+
+    for (int i = 0; i < b; i++)
     {
         if (a > 0)
         {
