@@ -11,6 +11,25 @@ enum class Status
     Overflow = -2,
 };
 
+namespace detail
+{
+inline Status factorialStep(int i, int n, int& acc)
+{
+    if (i > n)
+    {
+        return Status::Ok;
+    }
+
+    if (acc > INT_MAX / i)
+    {
+        return Status::Overflow;
+    }
+    acc *= i;
+    return factorialStep(i + 1, n, acc);
+}
+
+} // namespace detail
+
 inline Status addition(int a, int b, int& result)
 {
     if (a > 0 && b > 0)
@@ -112,31 +131,22 @@ inline Status multiplication(int a, int b, int& result)
 
 inline Status factorial(int a, int& result)
 {
+
     if (a < 0)
     {
         return Status::InvalidArgument;
     }
 
-    if (a <= 1)
+    int acc = 1;
+    int start = 2;
+
+    Status status = detail::factorialStep(start, a, acc);
+    if (status == Status::Ok)
     {
-        result = 1;
-        return Status::Ok;
+        result = acc;
     }
 
-    int previousResult = 0;
-    Status status = factorial(a - 1, previousResult);
-
-    if (status != Status::Ok)
-    {
-        return status;
-    }
-
-    if (a > INT_MAX / previousResult)
-    {
-        return Status::Overflow;
-    }
-    result = a * previousResult;
-    return Status::Ok;
+    return status;
 }
 
 inline Status power(int a, int b, int& result)
@@ -185,4 +195,4 @@ inline Status power(int a, int b, int& result)
     return Status::Ok;
 }
 
-} // namespace math
+} // namespace ar_math
