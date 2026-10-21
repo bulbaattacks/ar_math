@@ -7,8 +7,9 @@ namespace ar_math
 enum class Status
 {
     Ok = 0,
-    InvalidArgument = -1,
-    Overflow = -2,
+    Overflow = -1,
+    DivisionByZero = -2,
+    NegativeArgument = -3,
 };
 
 namespace detail
@@ -79,7 +80,7 @@ inline Status division(int a, int b, int& result)
 {
     if (b == 0)
     {
-        return Status::InvalidArgument;
+        return Status::DivisionByZero;
     }
 
     if (a == INT_MIN && b == -1)
@@ -134,7 +135,7 @@ inline Status factorial(int a, int& result)
 
     if (a < 0)
     {
-        return Status::InvalidArgument;
+        return Status::NegativeArgument;
     }
 
     int acc = 1;
@@ -153,7 +154,7 @@ inline Status power(int a, int b, int& result)
 {
     if (b < 0)
     {
-        return Status::InvalidArgument;
+        return Status::NegativeArgument;
     }
 
     if (b == 0)
