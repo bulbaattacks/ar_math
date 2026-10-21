@@ -10,6 +10,8 @@ enum class Status
     Overflow = -1,
     DivisionByZero = -2,
     NegativeArgument = -3,
+    UnknownOperation = -4,
+    InitialStatus = -5,
 };
 
 namespace detail
